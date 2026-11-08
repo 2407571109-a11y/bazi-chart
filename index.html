@@ -540,8 +540,190 @@
 [data-zw] .card p { margin-bottom: 8px; }
 [data-zw] .card table { margin-top: 6px; }
 </style>
+
+<style id="nav-fab-css">
+/* ===== 常驻悬浮：右上目录 / 右下置顶 ===== */
+html { scroll-behavior: smooth; scroll-padding-top: 18px; }
+.section { scroll-margin-top: 18px; }
+
+#navFab, #topFab {
+  position: fixed; z-index: 9998;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(23, 18, 12, .88);
+  border: 1px solid rgba(212, 175, 110, .55);
+  color: var(--gold-bright, #f3d99c);
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, .55);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  transition: transform .18s, border-color .18s, background .18s, opacity .22s;
+  font-family: inherit;
+}
+#navFab:hover, #topFab:hover { border-color: var(--gold, #d4af6e); background: rgba(35, 27, 17, .96); }
+#navFab:active, #topFab:active { transform: scale(.94); }
+
+#navFab {
+  top: 16px; right: 16px; height: 40px; padding: 0 15px 0 12px;
+  border-radius: 20px; gap: 7px; font-size: 13px; letter-spacing: 2px;
+}
+#navFab svg { width: 15px; height: 15px; }
+
+#topFab {
+  right: 16px; bottom: 22px; width: 46px; height: 46px;
+  border-radius: 50%; font-size: 19px; line-height: 1;
+  opacity: 0; pointer-events: none; transform: translateY(10px);
+}
+#topFab.on { opacity: 1; pointer-events: auto; transform: none; }
+
+/* 抽屉 */
+#navMask {
+  position: fixed; inset: 0; z-index: 9996;
+  background: rgba(6, 4, 2, .62); backdrop-filter: blur(2px);
+  opacity: 0; pointer-events: none; transition: opacity .22s;
+}
+#navMask.on { opacity: 1; pointer-events: auto; }
+
+#navDrawer {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 9997;
+  width: 340px; max-width: 88vw;
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, #17120c 0%, #120e09 100%);
+  border-left: 1px solid rgba(212, 175, 110, .32);
+  box-shadow: -12px 0 40px rgba(0, 0, 0, .6);
+  transform: translateX(102%); transition: transform .26s cubic-bezier(.4, 0, .2, 1);
+}
+#navDrawer.on { transform: none; }
+
+.nv-head {
+  flex: 0 0 auto; padding: 16px 18px 12px;
+  border-bottom: 1px solid rgba(212, 175, 110, .2);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nv-title { font-size: 13px; color: var(--gold-bright, #f3d99c); letter-spacing: 3px; }
+.nv-title span { color: var(--ink-dim, #a99b83); letter-spacing: 0; font-size: 11px; margin-left: 6px; }
+#navClose {
+  width: 30px; height: 30px; border-radius: 50%; flex: 0 0 auto;
+  border: 1px solid rgba(212, 175, 110, .35); background: transparent;
+  color: var(--ink, #ece4d3); font-size: 15px; cursor: pointer; line-height: 1;
+  transition: border-color .18s, color .18s;
+}
+#navClose:hover { border-color: var(--gold, #d4af6e); color: var(--gold-bright, #f3d99c); }
+
+.nv-quick {
+  flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+  padding: 11px 14px; border-bottom: 1px solid rgba(212, 175, 110, .14);
+}
+.nv-quick a {
+  display: block; text-align: center; padding: 7px 4px; border-radius: 8px;
+  font-size: 12px; letter-spacing: 1px; text-decoration: none;
+  color: var(--gold, #d4af6e); border: 1px solid rgba(212, 175, 110, .26);
+  background: rgba(212, 175, 110, .05); transition: background .16s, border-color .16s;
+}
+.nv-quick a:hover { background: rgba(212, 175, 110, .14); border-color: var(--gold, #d4af6e); }
+
+.nv-body { flex: 1 1 auto; overflow-y: auto; overscroll-behavior: contain; padding: 8px 10px 24px; }
+.nv-body::-webkit-scrollbar { width: 7px; }
+.nv-body::-webkit-scrollbar-thumb { background: rgba(212, 175, 110, .3); border-radius: 4px; }
+.nv-g {
+  font-size: 10.5px; color: var(--ink-dim, #a99b83); letter-spacing: 2px;
+  padding: 13px 8px 6px; border-bottom: 1px dashed rgba(212, 175, 110, .16);
+  margin-bottom: 4px;
+}
+.nv-i {
+  display: flex; gap: 9px; align-items: baseline;
+  padding: 7px 9px; border-radius: 7px; text-decoration: none;
+  color: var(--ink, #ece4d3); font-size: 12.5px; line-height: 1.5;
+  transition: background .14s, color .14s;
+}
+.nv-i:hover, .nv-i:active { background: rgba(212, 175, 110, .13); color: var(--gold-bright, #f3d99c); }
+.nv-n {
+  flex: 0 0 22px; font-size: 10.5px; color: rgba(212, 175, 110, .6);
+  font-variant-numeric: tabular-nums;
+}
+.nv-t { flex: 1 1 auto; }
+
+@media (max-width: 720px) {
+  #navFab { top: 12px; right: 12px; height: 36px; font-size: 12px; padding: 0 12px 0 10px; }
+  #topFab { right: 13px; bottom: 16px; width: 42px; height: 42px; font-size: 17px; }
+  #navDrawer { width: 86vw; }
+  .nv-i { padding: 8px 8px; font-size: 12px; }
+}
+</style>
 </head>
 <body>
+<!-- ===== 常驻悬浮：目录抽屉（右上）+ 一键置顶（右下） ===== -->
+<button id="navFab" type="button" aria-label="打开目录" title="目录">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+       stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+  <span>目录</span>
+</button>
+<button id="topFab" type="button" aria-label="回到顶部" title="回到顶部">&#8593;</button>
+<div id="navMask"></div>
+<aside id="navDrawer" aria-label="全文目录">
+  <div class="nv-head">
+    <div class="nv-title">目 录<span>共 48 节</span></div>
+    <button id="navClose" type="button" aria-label="关闭目录">&#10005;</button>
+  </div>
+  <div class="nv-quick">
+    <a href="#sec1">子平八字</a><a href="#sec38">紫微斗数</a>
+    <a href="#sec35">西方占星</a><a href="#sec37">梅花易数</a>
+  </div>
+  <div class="nv-body">
+      <div class="nv-g">子平八字 · 本部</div>
+      <a class="nv-i" href="#sec1"><span class="nv-n">01</span><span class="nv-t">四柱排盘</span></a>
+      <a class="nv-i" href="#sec2"><span class="nv-n">02</span><span class="nv-t">十神分布 · 劫财满盘</span></a>
+      <a class="nv-i" href="#sec3"><span class="nv-n">03</span><span class="nv-t">命格核心</span></a>
+      <a class="nv-i" href="#sec4"><span class="nv-n">04</span><span class="nv-t">大运流转</span></a>
+      <a class="nv-i" href="#sec5"><span class="nv-n">05</span><span class="nv-t">事业方位 · 城市选择</span></a>
+      <a class="nv-i" href="#sec6"><span class="nv-n">06</span><span class="nv-t">事业与感情 · 官杀同体</span></a>
+      <a class="nv-i" href="#sec7"><span class="nv-n">07</span><span class="nv-t">流年深读</span></a>
+      <a class="nv-i" href="#sec8"><span class="nv-n">08</span><span class="nv-t">近期关键月份</span></a>
+      <a class="nv-i" href="#sec9"><span class="nv-n">09</span><span class="nv-t">四季趋势对比</span></a>
+      <a class="nv-i" href="#sec10"><span class="nv-n">10</span><span class="nv-t">操作建议</span></a>
+      <a class="nv-i" href="#sec11"><span class="nv-n">11</span><span class="nv-t">27 考研 vs 28 考研 · 哪年更顺</span></a>
+      <a class="nv-i" href="#sec12"><span class="nv-n">12</span><span class="nv-t">27 考研 · 顺风局对标：帖子给的框架</span></a>
+      <a class="nv-i" href="#sec13"><span class="nv-n">13</span><span class="nv-t">27 考研 · 我的盘 × 判据对照</span></a>
+      <a class="nv-i" href="#sec14"><span class="nv-n">14</span><span class="nv-t">27 考研 · 用足与要防</span></a>
+      <a class="nv-i" href="#sec15"><span class="nv-n">15</span><span class="nv-t">27 考研 · 三句话总结</span></a>
+      <a class="nv-i" href="#sec16"><span class="nv-n">16</span><span class="nv-t">紫微斗数贵格 · 合参</span></a>
+      <a class="nv-i" href="#sec17"><span class="nv-n">17</span><span class="nv-t">读研 · 读博 · 自由与边界</span></a>
+      <a class="nv-i" href="#sec18"><span class="nv-n">18</span><span class="nv-t">读研三年 · 事业与学业重叠路线</span></a>
+      <a class="nv-i" href="#sec19"><span class="nv-n">19</span><span class="nv-t">北京学业财运与读博决策 · 总断</span></a>
+      <a class="nv-i" href="#sec20"><span class="nv-n">20</span><span class="nv-t">方位五行：北京和广州对你不是一回事</span></a>
+      <a class="nv-i" href="#sec21"><span class="nv-n">21</span><span class="nv-t">城市选择 · 东玄西玄三层叠加</span></a>
+      <a class="nv-i" href="#sec22"><span class="nv-n">22</span><span class="nv-t">三方交叉：紫微、八字、卦象指向同一处</span></a>
+      <a class="nv-i" href="#sec23"><span class="nv-n">23</span><span class="nv-t">大运节奏：名分和钱不在同一步</span></a>
+      <a class="nv-i" href="#sec24"><span class="nv-n">24</span><span class="nv-t">四条路：钱和运一起算</span></a>
+      <a class="nv-i" href="#sec25"><span class="nv-n">25</span><span class="nv-t">经济账先摆清</span></a>
+      <a class="nv-i" href="#sec26"><span class="nv-n">26</span><span class="nv-t">关于"找工作"：不是不好找，是不该以找工作为路径</span></a>
+      <a class="nv-i" href="#sec27"><span class="nv-n">27</span><span class="nv-t">成都这一站：能去，但要付一笔"补火税"</span></a>
+      <a class="nv-i" href="#sec28"><span class="nv-n">28</span><span class="nv-t">三年金水忌年：忌年是"时间"，不是"地点"</span></a>
+      <a class="nv-i" href="#sec29"><span class="nv-n">29</span><span class="nv-t">读博的三条路：专博、学博、出国</span></a>
+      <a class="nv-i" href="#sec30"><span class="nv-n">30</span><span class="nv-t">你的直系博士点：一条代码链，三扇门</span></a>
+      <a class="nv-i" href="#sec31"><span class="nv-n">31</span><span class="nv-t">专博还是学博：把门槛拆成两道来算</span></a>
+      <a class="nv-i" href="#sec32"><span class="nv-n">32</span><span class="nv-t">三条管道：一条主干，两个出口</span></a>
+      <a class="nv-i" href="#sec33"><span class="nv-n">33</span><span class="nv-t">四条操作</span></a>
+      <a class="nv-i" href="#sec34"><span class="nv-n">34</span><span class="nv-t">一句点醒</span></a>
+      <div class="nv-g">分支 · 西方占星</div>
+      <a class="nv-i" href="#sec35"><span class="nv-n">35</span><span class="nv-t">分支 · 占星：本命盘与十二宫</span></a>
+      <a class="nv-i" href="#sec36"><span class="nv-n">36</span><span class="nv-t">分支 · 占星：宫主星链路与月金</span></a>
+      <div class="nv-g">分支 · 梅花易数</div>
+      <a class="nv-i" href="#sec37"><span class="nv-n">37</span><span class="nv-t">分支 · 梅花易数：十月出门占</span></a>
+      <div class="nv-g">分支 · 紫微斗数</div>
+      <a class="nv-i" href="#sec38"><span class="nv-n">38</span><span class="nv-t">紫微 · 十二宫盘面</span></a>
+      <a class="nv-i" href="#sec39"><span class="nv-n">39</span><span class="nv-t">紫微 · 十二宫总览对比</span></a>
+      <a class="nv-i" href="#sec40"><span class="nv-n">40</span><span class="nv-t">紫微 · 格局核心</span></a>
+      <a class="nv-i" href="#sec41"><span class="nv-n">41</span><span class="nv-t">紫微 · 十二宫逐宫深读</span></a>
+      <a class="nv-i" href="#sec42"><span class="nv-n">42</span><span class="nv-t">紫微 · 大限轨迹</span></a>
+      <a class="nv-i" href="#sec43"><span class="nv-n">43</span><span class="nv-t">紫微 · 迁移与方位 · 城市选择</span></a>
+      <a class="nv-i" href="#sec44"><span class="nv-n">44</span><span class="nv-t">紫微 · 2026 流年 · 四化专读</span></a>
+      <a class="nv-i" href="#sec45"><span class="nv-n">45</span><span class="nv-t">紫微 · 事业宫 ↔ 感情宫 · 联动专读</span></a>
+      <a class="nv-i" href="#sec46"><span class="nv-n">46</span><span class="nv-t">紫微 · 贵格鉴定 · 双格、等级与八字合参</span></a>
+      <a class="nv-i" href="#sec47"><span class="nv-n">47</span><span class="nv-t">紫微 · 双贵格鉴定（独立页原文）</span></a>
+      <div class="nv-g">术语速查</div>
+      <a class="nv-i" href="#sec48"><span class="nv-n">48</span><span class="nv-t">术语速查</span></a>
+  </div>
+</aside>
+
 <div class="container">
 
   <div class="header">
@@ -3771,6 +3953,56 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeTip()
   svg.appendChild(rect);
 })();
 
+</script>
+
+<script>
+/* 常驻目录抽屉 + 回到顶部（独立作用域，不碰页面原有脚本） */
+(function () {
+  var fab = document.getElementById('navFab');
+  var top = document.getElementById('topFab');
+  var drawer = document.getElementById('navDrawer');
+  var mask = document.getElementById('navMask');
+  var closeBtn = document.getElementById('navClose');
+  if (!fab || !drawer) return;
+
+  function openDrawer() {
+    drawer.classList.add('on');
+    mask.classList.add('on');
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawer.classList.remove('on');
+    mask.classList.remove('on');
+    document.documentElement.style.overflow = '';
+  }
+  fab.addEventListener('click', openDrawer);
+  closeBtn.addEventListener('click', closeDrawer);
+  mask.addEventListener('click', closeDrawer);
+  drawer.querySelectorAll('a').forEach(function (a) {
+    a.addEventListener('click', function () { closeDrawer(); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeDrawer();
+  });
+
+  var ticking = false;
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () {
+      var y = window.pageYOffset || document.documentElement.scrollTop;
+      top.classList.toggle('on', y > 420);
+      ticking = false;
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  top.addEventListener('click', function () {
+    try { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    catch (e) { window.scrollTo(0, 0); }
+  });
+})();
 </script>
 </body>
 </html>
