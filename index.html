@@ -290,6 +290,27 @@
   .br-n { font-size: 14px; color: var(--gold-bright); font-weight: 600; margin-bottom: 4px; }
   .br-d { font-size: 11.5px; color: var(--ink-dim); line-height: 1.5; }
   @media (max-width: 720px) { .br-grid { grid-template-columns: 1fr 1fr; } }
+
+/* ===== 表格基础样式（兼容裸 <table>，2026-11-11 修） ===== */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+th { text-align: left; padding: 7px 8px; font-size: 12px; font-weight: 400;
+     color: var(--ink-dim); border-bottom: 1px solid rgba(212,175,110,.4); }
+td { padding: 7px 8px; vertical-align: top; line-height: 1.65;
+     border-bottom: 1px solid rgba(212,175,110,.10);
+     white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+/* .ok/.warn 原为短标签设计（nowrap），放进表格单元格时必须允许换行 */
+td.ok, td.warn, td.bad, td.mid, td.hl, th.ok, th.warn { white-space: normal; }
+
+/* 窄屏：表格不再撑破页面（原来的 min-width 会导致整页横向滚动） */
+@media (max-width: 760px) {
+  table { min-width: 0 !important; font-size: 12.5px; }
+  th, td { padding: 6px; }
+  td { line-height: 1.55; }
+}
+
+
+/* 侧边抽屉用 translateX(102%) 藏在右侧，窄屏下会把可滚动宽度撑大 → 锁掉页面横向滚动 */
+html, body { overflow-x: hidden; }
 </style>
 <style id="ziwei-branch-css">
 /* ===== 紫微分支样式（作用域隔离，不污染总站） ===== */
