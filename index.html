@@ -290,6 +290,24 @@
   .br-n { font-size: 14px; color: var(--gold-bright); font-weight: 600; margin-bottom: 4px; }
   .br-d { font-size: 11.5px; color: var(--ink-dim); line-height: 1.5; }
   @media (max-width: 720px) { .br-grid { grid-template-columns: 1fr 1fr; } }
+
+/* ===== 表格基础样式（兼容裸 <table>，2026-11-11 修，11-22 回补） ===== */
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+th { text-align: left; padding: 7px 8px; font-size: 12px; font-weight: 400;
+     color: var(--ink-dim); border-bottom: 1px solid rgba(212,175,110,.4); }
+td { padding: 7px 8px; vertical-align: top; line-height: 1.65;
+     border-bottom: 1px solid rgba(212,175,110,.10);
+     white-space: normal; overflow-wrap: anywhere; word-break: break-word; }
+/* .ok/.warn 原为短标签设计（nowrap），放进表格单元格时必须允许换行 */
+td.ok, td.warn, td.bad, td.mid, td.hl, th.ok, th.warn { white-space: normal; }
+/* 窄屏：表格不再撑破页面 */
+@media (max-width: 760px) {
+  table { min-width: 0 !important; font-size: 12.5px; }
+  th, td { padding: 6px; }
+  td { line-height: 1.55; }
+}
+/* 侧边抽屉用 translateX(102%) 藏在右侧，窄屏下会把可滚动宽度撑大 → 锁掉横向滚动 */
+html, body { overflow-x: hidden; }
 </style>
 <style id="ziwei-branch-css">
 /* ===== 紫微分支样式（作用域隔离，不污染总站） ===== */
@@ -1116,6 +1134,71 @@ html { scroll-behavior: smooth; scroll-padding-top: 18px; }
       <div style="border-left:3px solid var(--red,#c44a3c);padding:10px 0 10px 14px;margin-top:16px;">
         <p><b>一条硬警戒：为凑够 1000 去借钱、或压饭钱，都是亏本买卖。</b>那道伤落在「印」上（身体、精力、学习状态），比少存 500 贵得多。真凑不出来，就存 500，写进记录，下月补回来——<b>允许有缺口，不允许挪用和硬撑</b>。</p>
       </div>
+    </div>
+<div class="card">
+      <h3>比劫夺财 · 打扮与「投资自己」该怎么排 <small style="color:var(--ink-dim);font-size:11px;">2026-11 复盘</small></h3>
+      <p style="font-size:15px;line-height:1.95;"><b>结论：方向对，但要改三处——打扮是食伤里最便宜的一块，不是主战场。</b><br>
+      网上那条「比劫夺财就要好好打扮」的说法，逻辑是：<b>打扮＝向外输出食伤＝生产工具</b>，用食伤在比劫与财之间通关，把「漏财」改道成「生财」。这套逻辑放到我盘上，成立一半、需要修三处。</p>
+
+      <table>
+        <thead><tr><th>那条帖子的判据</th><th>我的盘</th><th>判</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>月令 <b>和</b> 时支双比劫 → 私底下易邋遢</td>
+            <td>时支亥＝<b>劫财</b>（亥藏壬）✓；<b>月令申＝正印，不是比劫</b> ✗</td>
+            <td class="warn">⚠️ 只中一半。我不爱收拾的根更偏<b>印重</b>（重内轻外、对秩序不敏感），不是纯比劫</td>
+          </tr>
+          <tr>
+            <td>比劫夺财、钱易流进流出</td>
+            <td>壬劫财透月干 ＋ 地支藏 <b>4 个壬</b>；<b>火 0 ＝ 财星无根</b></td>
+            <td class="ok">✅ 完全命中，全盘最硬的一条</td>
+          </tr>
+          <tr>
+            <td>打扮＝输出食伤</td>
+            <td>伤官甲 1 位（年干）且<b>坐申绝地</b>；<b>食神乙＝0</b></td>
+            <td class="ok">✅ 方向对，而且<b>食伤是我全盘最弱一环</b>——补它比帖子说的更值钱</td>
+          </tr>
+          <tr>
+            <td>食伤通关比劫与财、并生财</td>
+            <td>己巳运<b>巳中丙火正财</b>到位；<b>甲木生丙火</b>的路径成立</td>
+            <td class="ok">✅ 这十年的赚钱机制就是「输出换钱」，不是攒钱</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:16px;font-size:15px;"><b>三处要改</b></p>
+      <table>
+        <thead><tr><th>原话</th><th>修正</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>花钱打扮自己</td>
+            <td><b>食伤的真身是作品，不是穿搭。</b>影像、剪辑、写作、公众号——买衣服的边际收益远小于发出一条内容。钱先投作品，形象排第二</td>
+          </tr>
+          <tr>
+            <td>你看起来好了，钱就会流过来</td>
+            <td><b>不成立。</b>钱跟的是「看得见的作品」，不是脸。形象只解决"第一眼不被淘汰"，不解决"被记住、被选择"；后者靠作品＋平台背书。我官星戊藏两申不透、要等运引，这条路只能靠作品走</td>
+          </tr>
+          <tr>
+            <td>让越多人看到越好</td>
+            <td><b>别升级成"每日精致"。</b>印重身旺的人<b>启动成本极高</b>，把打扮任务化会立刻内耗崩掉——本来就有"懒得出门"的问题，再加一项日常 KPI 只会更不想动</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p style="margin-top:16px;"><b>「出门前不想出门，回来却感觉挺好」——不是错觉</b></p>
+      <p>这是身旺印重的标准体感：<b>启动阈值高（前期要烧掉大量意志），一旦启动、势能极大</b>（回来觉得有意愿、更用心）。<br>
+      所以问题<b>从来不在意愿，在启动成本</b>。对策不是多用意志力，是把决策提前到还有力气的时刻。</p>
+
+      <p style="margin-top:16px;"><b>落到动作上，只有四条</b></p>
+      <table>
+        <thead><tr><th>动作</th><th>为什么是这个</th></tr></thead>
+        <tbody>
+          <tr><td><b>三套固定搭配</b>轮着穿，不每天重选</td><td>少一个决策就少一次卡壳</td></tr>
+          <tr><td><b>前一晚把衣服和包摆好</b></td><td>把选择移到"无力气的时刻"之外</td></tr>
+          <tr><td>打扮的钱从 <b>C 管道账户 200–300</b> 出</td><td>归"能变成作品/能接活的投入"，不占 A 生活费</td></tr>
+          <tr><td>排序：<span class="hl">作品投入 ＞ 形象（三套搭配＋一件好外套＋头发）＞ 装备</span></td><td>形象是放大器，不是引擎。引擎不转，放大器放大的是零</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
